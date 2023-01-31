@@ -19,7 +19,7 @@ typedef struct {
   int regionlNodeExamined;
   int regionlNodePositive;
   int survivalMonths;
-  int aliveStatus; // alive, dead;
+  int aliveStatus; // 0 = alive, 1 = dead;
   int sortColumn;
 }, TumorData;
 
@@ -60,20 +60,26 @@ int main(){
                        return 2;
                    }
                    cache = new;
+
                    int index = dataSize - 1;
-                   int cnt = fscanf(fp,"%d,%s,%s,%s,%s,%d,%s,%s,%d,%d,%d,%s",
-                    &cache[index].age,
-                    &race,
-                    &marital,
-                    &cache[index].tstage,
-                    &cache[index].nstage,
-                    &cache[index].sixthstage,&cache[index].grade,
-                    &cache[index].aStage,
-                    &cache[index].tumorSize,
-                    &estrogenStatus, &prostegeroneStatus,
-                    &cache[index].regionlNodeExamined,
-                    &cache[index].regionlNodePositive,
+
+                   int cnt = fscanf(fp,"%d,%s,%s,%s,%s,%d,%s,%s,%d,%d,%d,%s", &cache[index].age,
+                    &race, &marital, &cache[index].tstage, &cache[index].nstage,
+                    &cache[index].sixthstage,&cache[index].grade, &cache[index].aStage,
+                    &cache[index].tumorSize, &estrogenStatus, &prostegeroneStatus,
+                    &cache[index].regionlNodeExamined, &cache[index].regionlNodePositive,
                     &cache[index].survivalMonths, &status);
+
+                    // assign race.
+                    if(race[0] == 'O'){
+                      cache[index].race = 2;
+                    } else {
+                      cache[index].race = race[0] == 'B';
+                    }
+                    cache[index].aliveStatus = (status[0] == 'D');
+                    cache[index].sortColumn = cache[index].age + cache[index].tumorSize;
+                    cache[index].estrogenStatus = (estrogenStatus[0] == 'P');
+                    cache[index].prostegeroneStatus = (prostegeroneStatus[0] == 'P');
                     dataSize++;
                    if (cnt == EOF) break;
                 }
