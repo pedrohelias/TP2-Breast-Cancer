@@ -5,7 +5,7 @@
 typedef struct {
   int age;
   int race; // 0 = white, 1 = black, 2 = other.
-  int marital; // 0 single, 1 married, 2 divorced
+  int marital; // 2 single, 0 married, 1 divorced
   int status; // number of the status of the tumor
   char tstage[2]; // t stage of the tumor;
   char nstage[2]; // n stage of the tumor;
@@ -76,6 +76,15 @@ int main(){
                     } else {
                       cache[index].race = race[0] == 'B';
                     }
+
+                    // assign marriage status.
+                    if(marital[0] == 'S'){
+                      int marital;
+                      cache[index].marital = 2;
+                    } else {
+                      cache[index].marital = marital[0] == 'D';
+                    }
+
                     cache[index].aliveStatus = (status[0] == 'D');
                     cache[index].sortColumn = cache[index].age + cache[index].tumorSize;
                     cache[index].estrogenStatus = (estrogenStatus[0] == 'P');
