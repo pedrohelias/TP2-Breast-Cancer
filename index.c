@@ -49,10 +49,10 @@ FILE * carregarDatabase(char arquivo[50]){
 
 
 
-TumorData tratarDados(FILE *arquivo, int *posicao){
-    TumorData arvore;
+// TumorData tratarDados(FILE *arquivo, int *posicao){
+//     TumorData arvore;
 
-}
+// }
 
 
 
