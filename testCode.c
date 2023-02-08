@@ -68,11 +68,12 @@ void inOrder(struct node *root) {
   char str[60];
 
   if (root != NULL) {
+    
     inOrder(root->left);
 /*     printf("%d, %d, %d, %d, %d, %d, %d, %d,%d, %d, %d, %d, %d, %d, %d, %d \n", root->data, root->value, root-> race, root-> marital, root -> tStage, root -> nStage, root -> sixStage, root -> diff, root -> grade, root -> aStage, root -> estrogStatus, root -> progesStatus, root -> regionalNodeExa, root -> regionalNodePos, root -> survivalMonths, root -> status); */
     printf("%d, ", root->data);
     printf("%d, ", root->value); 
-    printf("%p", root->race);
+    printf("%d", root-> race);
     
     //sprintf(str, "%d", root->race);
     printf("\n");
@@ -82,7 +83,21 @@ void inOrder(struct node *root) {
   }
 }
 
+FILE * carregarDatabase(char arquivo[50]){
+    FILE *file;
+    file = fopen(arquivo, "r");
+
+    if(file == NULL){
+        printf("Erro ao abrir o documento\n");
+        return 1;
+    }
+
+    return file;
+
+}
+
 int main() {
+
   struct node *root = NULL;
   char line[256];
   char *token;
@@ -102,6 +117,49 @@ int main() {
   int regionalNodePos;
   int survivalMonths;
   char status[40];
+
+  // char opcao, nomeArquivo[50];
+  // FILE *arquivo = NULL;
+  // long int posicao[962];
+
+
+  // while(opcao != '3'){
+
+  //     printf("\n1 - Inserir Base de Dados\n");
+  //     printf("2 - Emitir Relatório\n");
+  //     printf("3 - Fechar Aplicação\n\n");
+
+  //     scanf("%c", &opcao);
+  //     getchar();
+
+  //     switch(opcao){
+  //         case '1':
+              
+  //             printf("\nInforme o nome do arquivo a ser lido:");
+  //             scanf("%s", nomeArquivo);
+  //             getchar();
+
+  //             arquivo = carregarDatabase(nomeArquivo);
+              
+  //             break;
+
+  //         case '2':
+  //             if(arquivo == NULL){
+  //                 printf("\nArquivo vazio\n\n");
+  //                 break;
+  //             }
+
+              
+  //             break;
+
+  //         case '3':
+  //             return 0;
+  //     }
+  // }
+
+
+
+
 
   // Read the data from the CSV file
   FILE *fp;
