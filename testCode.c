@@ -7,43 +7,43 @@ struct node {
   int data;
   int value;
   char * race;
-  char marital;
-  char tStage;
-  char nStage;
-  char sixStage;
-  char diff; 
+  char * marital;
+  char * tStage;
+  char * nStage;
+  char * sixStage;
+  char * diff; 
   int grade;
-  char aStage;
-  char estrogStatus;
-  char progesStatus;
+  char * aStage;
+  char * estrogStatus;
+  char * progesStatus;
   int regionalNodeExa;
   int regionalNodePos;
   int survivalMonths;
-  char status;
+  char * status;
   struct node *left;
   struct node *right;
 };
 
 typedef struct node * Node;
 
-struct node *createNode(int data, int value, char *race, char marital, char tStage, char nStage, char sixStage, char diff, int grade, char aStage, char estrogStatus, char progesStatus, int regionalNodeExa, int regionalNodePos, int survivalMonths, char status){ // int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
+struct node *createNode(int data, int value, char race[], char marital[], char tStage[], char nStage[], char sixStage[], char diff[], int grade, char aStage[], char estrogStatus[], char progesStatus[], int regionalNodeExa, int regionalNodePos, int survivalMonths, char status[]){ // int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
   struct node *newNode = (struct node *)malloc(sizeof(struct node));
   newNode->data = data;
   newNode->value = value;
-  newNode->race = race;
-  newNode->marital = marital;
-  newNode->tStage = tStage;
-  newNode->nStage = nStage;
-  newNode->sixStage = sixStage;
-  newNode->diff = diff; 
+  newNode->race = strdup(race);
+  newNode->marital = strdup(marital);
+  newNode->tStage = strdup(tStage);
+  newNode->nStage = strdup(nStage);
+  newNode->sixStage = strdup(sixStage);
+  newNode->diff = strdup(diff); 
   newNode->grade = grade; 
-  newNode->aStage = aStage;
-  newNode->estrogStatus = estrogStatus;
-  newNode->progesStatus = progesStatus;
+  newNode->aStage = strdup(aStage);
+  newNode->estrogStatus = strdup(estrogStatus);
+  newNode->progesStatus = strdup(progesStatus);
   newNode->regionalNodeExa = regionalNodeExa;
   newNode->regionalNodePos = regionalNodePos;
   newNode->survivalMonths = survivalMonths;
-  newNode->status = status;
+  newNode->status = strdup(status);
   newNode->left = NULL;
   newNode->right = NULL;
   
@@ -56,11 +56,11 @@ int compare(int a, int b) {
   return (a - b);
 }
 
-void insert(struct node **root, int data, int value, char* race, char marital, char tStage, char nStage, char sixStage, char diff, int grade, char aStage, char estrogStatus, char progesStatus, int regionalNodeExa, int regionalNodePos, int survivalMonths, char status){ //  char estrogStatus, char progesStatus, int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
+void insert(struct node **root, int data, int value, char race[], char marital[], char tStage[], char nStage[], char sixStage[], char diff[], int grade, char aStage[], char estrogStatus[], char progesStatus[], int regionalNodeExa, int regionalNodePos, int survivalMonths, char status[]){ //  char estrogStatus, char progesStatus, int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
   if (*root == NULL) {
     *root = createNode(data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status); //, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
   } else {
-    if (compare(data, (*root)->data) < 0 && compare(value, (*root)->value) ) {
+    if (compare((data+value), (*root)-> data + (*root)-> value )  < 0  ){
       insert(&(*root)->left, data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status); // tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
     } else {
       insert(&(*root)->right, data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);  // tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
@@ -69,16 +69,18 @@ void insert(struct node **root, int data, int value, char* race, char marital, c
 }
 
 void inOrder(struct node *root) {
-  char str[60];
+  //char str[60];
 
   if (root != NULL) {
     
     inOrder(root->left);  
-    /* printf("%d, %d, %s, %d, %d, %d, %d, %d,%d, %d, %d, %d, %d, %d, %d, %d \n", root->data, root->value, root-> race, root-> marital, root -> tStage, root -> nStage, root -> sixStage, root -> diff, root -> grade, root -> aStage, root -> estrogStatus, root -> progesStatus, root -> regionalNodeExa, root -> regionalNodePos, root -> survivalMonths, root -> status);  */
-
+    printf("%d, %d, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %d, %d, %d, %s \n", root->data, root->value, root-> race, root-> marital, root -> tStage, root -> nStage, root -> sixStage, root -> diff, root -> grade, root -> aStage, root -> estrogStatus, root -> progesStatus, root -> regionalNodeExa, root -> regionalNodePos, root -> survivalMonths, root -> status); 
     
-    printf("%s", root->race);
-    //sprintf(str, "%d", root->race);
+/*     printf("%d, ", root->data);
+    printf("%d, ", root->value);
+    printf("%s, ", root->race);
+    printf("%s \n", root->marital); */
+    
     printf("\n");
     
 
@@ -171,24 +173,24 @@ Node processar(FILE *fp){
     //     race = "white";
     // }
     token = strtok(NULL, delim);
-    char maritalP = strcpy(marital, token);
+    char * maritalP = strcpy(marital, token);
     //printf("%s, ", marital);
 
     token = strtok(NULL, delim);
-    char tStageP = strcpy(tStage, token);
+    char * tStageP = strcpy(tStage, token);
     //printf("%s, ", tStage);
 
     token = strtok(NULL, delim);
-    char nStageP = strcpy(nStage, token);
+    char * nStageP = strcpy(nStage, token);
     //printf("%s, ", nStage);
 
     token = strtok(NULL, delim);
-    char  sixStageP = strcpy(sixStage, token); 
+    char * sixStageP = strcpy(sixStage, token); 
     //printf("%s, ", sixStage);
    
 
     token = strtok(NULL, delim);
-    char diffP = strcpy(diff, token);
+    char * diffP = strcpy(diff, token);
     //printf("%s, ", diff);
 
     token = strtok(NULL, delim);
@@ -198,15 +200,15 @@ Node processar(FILE *fp){
 
 
     token = strtok(NULL, delim);
-    char aStageP = strcpy(aStage, token);
+    char * aStageP = strcpy(aStage, token);
     //printf("%s, ", aStage);
 
     token = strtok(NULL, delim);
-    char estrogStatusP = strcpy(estrogStatus, token);
+    char * estrogStatusP = strcpy(estrogStatus, token);
     //printf("%s, ", estrogStatus);
 
     token = strtok(NULL, delim);    
-    char progesStatusP = strcpy(progesStatus, token);
+    char * progesStatusP = strcpy(progesStatus, token);
     //printf("%s, ", progesStatus);
 
     token = strtok(NULL, delim);
@@ -227,7 +229,7 @@ Node processar(FILE *fp){
 
 
     token = strtok(NULL, delim);
-    char statusP = strcpy(status, token);
+    char * statusP = strcpy(status, token);
     //printf("%s \n", status);
 
 
