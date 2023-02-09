@@ -101,8 +101,7 @@ FILE * carregarDatabase(char arquivo[50]){
     return file;
 
 }
-
-/* void free(Node Node){
+ void limpa(Node Node){
     if(Node == NULL)
         return;
 
@@ -113,7 +112,7 @@ FILE * carregarDatabase(char arquivo[50]){
         free(Node->right);
     free(Node);
 }
- */
+
 
 Node processar(FILE *fp){
    
@@ -306,7 +305,7 @@ int main() {
               
           case '3':
               fclose(arquivo);
-              free(root);
+              limpa(root);
               return 0;
       }
   }
