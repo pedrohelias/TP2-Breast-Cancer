@@ -4,8 +4,10 @@
 #include <stdbool.h>
 
 struct node {
+  int line;
   int data;
   int value;
+  int sum;
   char * race;
   char * marital;
   char * tStage;
@@ -26,7 +28,7 @@ struct node {
 
 typedef struct node * Node;
 
-struct node *createNode(int data, int value, char race[], char marital[], char tStage[], char nStage[], char sixStage[], char diff[], int grade, char aStage[], char estrogStatus[], char progesStatus[], int regionalNodeExa, int regionalNodePos, int survivalMonths, char status[]){ // int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
+struct node *createNode(int data, int value, char race[], char marital[], char tStage[], char nStage[], char sixStage[], char diff[], int grade, char aStage[], char estrogStatus[], char progesStatus[], int regionalNodeExa, int regionalNodePos, int survivalMonths, char status[], int line){ // int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
   struct node *newNode = (struct node *)malloc(sizeof(struct node));
   newNode->data = data;
   newNode->value = value;
@@ -46,58 +48,45 @@ struct node *createNode(int data, int value, char race[], char marital[], char t
   newNode->status = strdup(status);
   newNode->left = NULL;
   newNode->right = NULL;
-  
+  newNode->sum = (data+value);
+  newNode->line=line;
   return newNode;
-
-  
 }
 
 int compare(int a, int b) {
   return (a - b);
 }
 
-void insert(struct node **root, int data, int value, char race[], char marital[], char tStage[], char nStage[], char sixStage[], char diff[], int grade, char aStage[], char estrogStatus[], char progesStatus[], int regionalNodeExa, int regionalNodePos, int survivalMonths, char status[]){ //  char estrogStatus, char progesStatus, int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
+void insert(struct node **root, int data, int value, char race[], char marital[], char tStage[], char nStage[], char sixStage[], char diff[], int grade, char aStage[], char estrogStatus[], char progesStatus[], int regionalNodeExa, int regionalNodePos, int survivalMonths, char status[], int line){ //  char estrogStatus, char progesStatus, int regionalNodeExa, int regionalNodePos, int survivalMonths, char status) {
   if (*root == NULL) {
-    *root = createNode(data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status); //, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
+    *root = createNode(data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status, line); //, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
   } else {
-    if (compare((data+value), (*root)-> data + (*root)-> value )  < 0  ){
-      insert(&(*root)->left, data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status); // tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
+    if (compare((data+value), (*root)-> sum)  < 0){
+      insert(&(*root)->left, data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status, line); // tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
     } else {
-      insert(&(*root)->right, data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);  // tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
+      insert(&(*root)->right, data, value, race, marital, tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status, line);  // tStage, nStage, sixStage, diff, grade, aStage, estrogStatus, progesStatus, regionalNodeExa, regionalNodePos, survivalMonths, status);
     }
   }
 }
 
 void inOrder(struct node *root) {
-  //char str[60];
-
   if (root != NULL) {
-    
     inOrder(root->left);  
-    printf("%d, %d, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %d, %d, %d, %s \n", root->data, root->value, root-> race, root-> marital, root -> tStage, root -> nStage, root -> sixStage, root -> diff, root -> grade, root -> aStage, root -> estrogStatus, root -> progesStatus, root -> regionalNodeExa, root -> regionalNodePos, root -> survivalMonths, root -> status); 
-    
-/*     printf("%d, ", root->data);
-    printf("%d, ", root->value);
-    printf("%s, ", root->race);
-    printf("%s \n", root->marital); */
-    
+    printf("[line: %d ] ",root->line);
+    printf("%d, %d, %s, %s, %s, %s, %s, %s, %d, %s, %s, %s, %d, %d, %d, %s", root->data, root->value, root-> race, root-> marital, root -> tStage, root -> nStage, root -> sixStage, root -> diff, root -> grade, root -> aStage, root -> estrogStatus, root -> progesStatus, root -> regionalNodeExa, root -> regionalNodePos, root -> survivalMonths, root -> status); 
     printf("\n");
-    
-
     inOrder(root->right);
   }
 }
 
 
-FILE * carregarDatabase(char arquivo[50]){
+FILE * openFile(char arquivo[50]){
     FILE *file;
     file = fopen(arquivo, "r");
-
     if(file == NULL){
         printf("Erro ao abrir o documento\n");
-        return 1;
+        return NULL;
     }
- 
     return file;
 
 }
@@ -106,11 +95,11 @@ FILE * carregarDatabase(char arquivo[50]){
         free(Node);
 
     if(Node->left != NULL){
-        free(Node->left);
+        limpa(Node->left);
         }
 
     if(Node->right != NULL){
-        free(Node->right);
+        limpa(Node->right);
     }
     free(Node);
 }
@@ -139,6 +128,7 @@ Node processar(FILE *fp){
     char status[40];
 
 
+int t = 0;
   while (fgets(line, sizeof(line), fp) != NULL) {
     line[strcspn(line, " \r\n")];
     token = strtok(line, delim);
@@ -217,13 +207,11 @@ Node processar(FILE *fp){
 
   
 
-    insert(&root, data, value, raceP, maritalP, tStageP, nStageP, sixStageP, diffP, gradeP, aStageP, estrogStatusP, progesStatusP, regionalNodeExaP, regionalNodePosP, survivalMonthsP, statusP); 
-
+    insert(&root, data, value, raceP, maritalP, tStageP, nStageP, sixStageP, diffP, gradeP, aStageP, estrogStatusP, progesStatusP, regionalNodeExaP, regionalNodePosP, survivalMonthsP, statusP, t); 
+    t++;
   }
 
   return root;
-
-
 }
 
 int main() {
@@ -252,25 +240,24 @@ int main() {
               scanf("%s", nomeArquivo);
               getchar();
 
-              arquivo = carregarDatabase(nomeArquivo);
+              arquivo = openFile(nomeArquivo);
               
               break;
 
           case '2':
               if(arquivo == NULL){
                   printf("\nArquivo vazio\n\n");
-                  
-              }else{
-              root = processar(arquivo);
-              inOrder(root);
                   break;
-
+              }else{
+                 root = processar(arquivo);
+                 inOrder(root);
+                break;
               }
                  
-              
+          
           case '3':
-              fclose(arquivo);
-              limpa(root);
+          if(arquivo != NULL){ fclose(arquivo);}
+            if(root != NULL) {limpa(root);}
               return 0;
       }
   }
