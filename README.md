@@ -20,7 +20,50 @@
 
 ## 1. Código Fonte da Solução
 
+O repositório se encontra neste <a href="https://github.com/pedrohelias/TP2-Breast-Cancer/tree/main">link</a>
+
+O código se encontra neste <a href="">link</a>
+
 ## 2. Arquivo de Saída
-## 3. Carregar Arquivo de Dados 
-## 4. Emitir Relatório 
-## 5. Opção Sair
+
+<div align="center">
+
+<b>Figura1:</b> Saída exemplo do programa <br>
+<img align='center' src="https://github.com/pedrohelias/TP2-Breast-Cancer/blob/modifications/imagens/saida_exemplo.png?raw=true">
+
+
+<br>
+<b>Fonte:</b> Autoria própria
+
+
+</div>
+
+
+## 3. Menu do Sistema
+
+<div align="center">
+
+<b>Figura1:</b> Menu do sistema <br>
+<img align='center' src="https://github.com/pedrohelias/TP2-Breast-Cancer/blob/modifications/imagens/menu.png?raw=true">
+
+
+<br>
+<b>Fonte:</b> Autoria própria
+
+
+</div>
+
+## 4. Inserindo Database
+
+
+<div align="center">
+
+<b>Figura1:</b> Inserindo a base de dados <br>
+<img align='center' src="https://github.com/pedrohelias/TP2-Breast-Cancer/blob/modifications/imagens/inserindo.png?raw=true">
+
+
+<br>
+<b>Fonte:</b> Autoria própria
+
+
+</div>
