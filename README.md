@@ -29,7 +29,7 @@ O código se encontra neste <a href="https://github.com/pedrohelias/TP2-Breast-C
 <div align="center">
 
 <b>Figura1:</b> Saída exemplo do programa <br>
-<img align='center' src="https://github.com/pedrohelias/TP2-Breast-Cancer/blob/modifications/imagens/saida_exemplo.png?raw=true">
+<img align='center' src="https://github.com/pedrohelias/TP2-Breast-Cancer/blob/main/imagens/saida_exemplo.png?raw=true">
 
 
 <br>
